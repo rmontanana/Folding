@@ -10,12 +10,12 @@ namespace folding {
         int k;
         int n;
         int seed;
-        std::default_random_engine random_seed;
+        std::mt19937 random_seed;
     public:
         inline Fold(int k, int n, int seed = -1) : k(k), n(n), seed(seed)
         {
             std::random_device rd;
-            random_seed = std::default_random_engine(seed == -1 ? rd() : seed);
+            random_seed = std::mt19937(seed == -1 ? rd() : seed);
             std::srand(seed == -1 ? time(0) : seed);
         }
         virtual std::pair<std::vector<int>, std::vector<int>> getFold(int nFold) = 0;
