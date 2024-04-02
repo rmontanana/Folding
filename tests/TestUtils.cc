@@ -1,13 +1,5 @@
 #include "TestUtils.h"
-#include "config.h"
 
-class Paths {
-public:
-    static std::string datasets()
-    {
-        return { data_path.begin(), data_path.end() };
-    }
-};
 
 pair<std::vector<mdlp::labels_t>, map<std::string, int>> discretize(std::vector<mdlp::samples_t>& X, mdlp::labels_t& y, std::vector<std::string> features)
 {

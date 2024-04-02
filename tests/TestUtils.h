@@ -1,5 +1,6 @@
 #ifndef TEST_UTILS_H
 #define TEST_UTILS_H
+#include <fstream>
 #include <torch/torch.h>
 #include <string>
 #include <vector>
@@ -7,6 +8,7 @@
 #include <tuple>
 #include "ArffFiles.h"
 #include "CPPFImdlp.h"
+#include "config.h"
 
 bool file_exists(const std::string& name);
 std::pair<vector<mdlp::labels_t>, map<std::string, int>> discretize(std::vector<mdlp::samples_t>& X, mdlp::labels_t& y, std::vector<string> features);
@@ -39,5 +41,37 @@ public:
     int nSamples, classNumStates;
     double epsilon = 1e-5;
 };
-
+class Paths {
+public:
+    static std::string datasets()
+    {
+        return { data_path.begin(), data_path.end() };
+    }
+    static std::string csv()
+    {
+        return { csv_path.begin(), csv_path.end() };
+    }
+};
+class CSVFiles {
+public:
+    static void write_csv(std::string fname, std::vector<int> indices)
+    {
+        std::ofstream file(Paths::csv() + fname);
+        for (auto i = 0; i < indices.size(); ++i) {
+            file << indices[i] << std::endl;
+        }
+        file.close();
+    }
+    static std::vector<int> read_csv(std::string fname)
+    {
+        std::ifstream file(Paths::csv() + fname);
+        std::vector<int> indices;
+        std::string line;
+        while (std::getline(file, line)) {
+            indices.push_back(std::stoi(line));
+        }
+        file.close();
+        return indices;
+    }
+};
 #endif //TEST_UTILS_H
