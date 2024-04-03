@@ -3,6 +3,7 @@ if(ENABLE_TESTING)
         ${Folding_SOURCE_DIR}
         ${Folding_SOURCE_DIR}/lib/Files
         ${Folding_SOURCE_DIR}/lib/mdlp
+        ${CMAKE_BINARY_DIR}/configured_files/include
     )
     set(TEST_FOLDING "unit_tests_folding")
     add_executable(${TEST_FOLDING} TestFolding.cc TestUtils.cc)

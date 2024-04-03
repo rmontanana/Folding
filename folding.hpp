@@ -4,8 +4,8 @@
 #include <map>
 #include <random> 
 #include <vector>
-#include "config_folding.h"
 namespace folding {
+    const std::string FOLDING_VERSION = "1.0.1";
     class Fold {
     protected:
         int k;
@@ -21,7 +21,7 @@ namespace folding {
         }
         virtual std::pair<std::vector<int>, std::vector<int>> getFold(int nFold) = 0;
         virtual ~Fold() = default;
-        std::string version() { return { folding_project_version.begin(), folding_project_version.end() }; }
+        std::string version() { return FOLDING_VERSION; }
         int getNumberOfFolds() { return k; }
     };
     class KFold : public Fold {
