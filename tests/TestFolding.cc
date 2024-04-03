@@ -6,7 +6,7 @@
 
 TEST_CASE("Version Test", "[Folding]")
 {
-    std::string actual_version = { project_version.begin(), project_version.end() };
+    std::string actual_version = { folding_project_version.begin(), folding_project_version.end() };
     auto data = std::vector<int>(100);
     folding::StratifiedKFold stratified_kfold(5, data, 17);
     REQUIRE(stratified_kfold.version() == actual_version);

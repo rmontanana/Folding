@@ -7,9 +7,8 @@
 #define PROJECT_VERSION_MINOR @PROJECT_VERSION_MINOR @
 #define PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH @
 
-static constexpr std::string_view project_name = "@PROJECT_NAME@";
-static constexpr std::string_view project_version = "@PROJECT_VERSION@";
-static constexpr std::string_view project_description = "@PROJECT_DESCRIPTION@";
-static constexpr std::string_view git_sha = "@GIT_SHA@";
-static constexpr std::string_view data_path = "@Folding_SOURCE_DIR@/tests/data/";
-static constexpr std::string_view csv_path = "@Folding_SOURCE_DIR@/tests/csv/";
+static constexpr std::string_view folding_project_name = "@PROJECT_NAME@";
+static constexpr std::string_view folding_project_version = "@PROJECT_VERSION@";
+static constexpr std::string_view folding_project_description = "@PROJECT_DESCRIPTION@";
+static constexpr std::string_view folding_data_path = "@Folding_SOURCE_DIR@/tests/data/";
+static constexpr std::string_view folding_csv_path = "@Folding_SOURCE_DIR@/tests/csv/";

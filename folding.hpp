@@ -21,7 +21,7 @@ namespace folding {
         }
         virtual std::pair<std::vector<int>, std::vector<int>> getFold(int nFold) = 0;
         virtual ~Fold() = default;
-        std::string version() { return { project_version.begin(), project_version.end() }; }
+        std::string version() { return { folding_project_version.begin(), folding_project_version.end() }; }
         int getNumberOfFolds() { return k; }
     };
     class KFold : public Fold {

@@ -45,11 +45,11 @@ class Paths {
 public:
     static std::string datasets()
     {
-        return { data_path.begin(), data_path.end() };
+        return { folding_data_path.begin(), folding_data_path.end() };
     }
     static std::string csv()
     {
-        return { csv_path.begin(), csv_path.end() };
+        return { folding_csv_path.begin(), folding_csv_path.end() };
     }
 };
 class CSVFiles {
