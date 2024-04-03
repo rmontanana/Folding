@@ -6,3 +6,9 @@
 ![Gitea Last Commit](https://img.shields.io/gitea/last-commit/rmontanana/folding?gitea_url=https://gitea.rmontanana.es:3000&logo=gitea)
 
 Folding header-only library for BayesNet classifiers & platform
+
+### Tests
+
+```bash
+make build && make test
+```

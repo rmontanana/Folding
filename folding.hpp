@@ -4,7 +4,7 @@
 #include <map>
 #include <random> 
 #include <vector>
-#include "config.h"
+#include "config_folding.h"
 namespace folding {
     class Fold {
     protected:

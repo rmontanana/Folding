@@ -38,4 +38,4 @@ cmake-build*/**
 .idea
 puml/**
 .vscode/settings.json
-config.h
+config_folding.h
