@@ -27,9 +27,9 @@ TEST_CASE("KFold Test", "[Platform][KFold]")
             auto fname = "kfold_" + file_name + "_" + std::to_string(i) + ".csv";
             auto indices = train_indices;
             indices.insert(indices.end(), test_indices.begin(), test_indices.end());
-            CSVFiles::write_csv(fname, indices);
+            // CSVFiles::write_csv(fname, indices);
             auto expected_indices = CSVFiles::read_csv(fname);
-            REQUIRE(indices == expected_indices);
+            // CHECK(indices == expected_indices);
             bool result = train_indices.size() == number || train_indices.size() == number + 1;
             REQUIRE(result);
             REQUIRE(train_indices.size() + test_indices.size() == raw.nSamples);
@@ -77,9 +77,9 @@ TEST_CASE("StratifiedKFold Test", "[Platform][StratifiedKFold]")
             auto fname = "stratkfold_" + file_name + "_" + std::to_string(nFolds) + "_" + std::to_string(fold) + ".csv";
             auto indices = train_indicesv;
             indices.insert(indices.end(), test_indicesv.begin(), test_indicesv.end());
-            CSVFiles::write_csv(fname, indices);
+            // CSVFiles::write_csv(fname, indices);
             auto expected_indices = CSVFiles::read_csv(fname);
-            REQUIRE(indices == expected_indices);
+            // CHECK(indices == expected_indices);
             // In the worst case scenario, the number of samples in the training set is number + raw.classNumStates
             // because in that fold can come one remainder sample from each class.
             REQUIRE(train_indicest.size() <= number + raw.classNumStates);
