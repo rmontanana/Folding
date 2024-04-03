@@ -4,8 +4,17 @@
 #include "TestUtils.h"
 #include "folding.hpp"
 
+TEST_CASE("Version Test", "[Folding]")
+{
+    std::string actual_version = { project_version.begin(), project_version.end() };
+    auto data = std::vector<int>(100);
+    folding::StratifiedKFold stratified_kfold(5, data, 17);
+    REQUIRE(stratified_kfold.version() == actual_version);
+    folding::KFold kfold(5, 100, 19);
+    REQUIRE(kfold.version() == actual_version);
+}
 
-TEST_CASE("KFold Test", "[Platform][KFold]")
+TEST_CASE("KFold Test", "[Folding]")
 {
     // Initialize a KFold object with k=5 and a seed of 19.
     std::string file_name = GENERATE("iris", "diabetes", "glass");
@@ -45,7 +54,7 @@ map<int, int> counts(std::vector<int> y, std::vector<int> indices)
     return result;
 }
 
-TEST_CASE("StratifiedKFold Test", "[Platform][StratifiedKFold]")
+TEST_CASE("StratifiedKFold Test", "[Folding]")
 {
     // Initialize a StratifiedKFold object with k=3, using the y std::vector, and a seed of 17.
     std::string file_name = GENERATE("iris", "diabetes", "glass");

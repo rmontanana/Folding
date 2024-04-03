@@ -4,6 +4,7 @@
 #include <map>
 #include <random> 
 #include <vector>
+#include "config.h"
 namespace folding {
     class Fold {
     protected:
@@ -20,6 +21,7 @@ namespace folding {
         }
         virtual std::pair<std::vector<int>, std::vector<int>> getFold(int nFold) = 0;
         virtual ~Fold() = default;
+        std::string version() { return { project_version.begin(), project_version.end() }; }
         int getNumberOfFolds() { return k; }
     };
     class KFold : public Fold {
