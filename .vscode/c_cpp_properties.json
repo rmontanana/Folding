@@ -10,8 +10,16 @@
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
             ],
             "cStandard": "c17",
-            "cppStandard": "c++17",
-            "compileCommands": "${workspaceFolder}/cmake-build-release/compile_commands.json"
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

@@ -7,10 +7,6 @@ project(Folding
   LANGUAGES CXX
 )
 
-if (CODE_COVERAGE AND NOT ENABLE_TESTING)
-  MESSAGE(FATAL_ERROR "Code coverage requires testing enabled")
-endif (CODE_COVERAGE AND NOT ENABLE_TESTING)
-
 find_package(Torch REQUIRED)
 
 if (POLICY CMP0135)
@@ -25,6 +21,7 @@ set(CMAKE_CXX_EXTENSIONS                  OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS          ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
 # Options
 # -------
 option(ENABLE_TESTING "Unit testing build"                        OFF)
@@ -40,12 +37,11 @@ add_subdirectory(config)
 
 # Testing
 # -------
-
 if (ENABLE_TESTING)
   MESSAGE("Testing enabled")
-  add_git_submodule("lib/catch2")  
-  add_git_submodule("lib/Files")  
-  add_git_submodule("lib/mdlp")  
+  add_git_submodule("tests/lib/catch2")  
+  add_git_submodule("tests/lib/Files")  
+  add_git_submodule("tests/lib/mdlp")  
   include(CTest)
   add_subdirectory(tests)
 endif (ENABLE_TESTING)

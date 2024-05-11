@@ -1,8 +1,8 @@
 if(ENABLE_TESTING)
     include_directories(
         ${Folding_SOURCE_DIR}
-        ${Folding_SOURCE_DIR}/lib/Files
-        ${Folding_SOURCE_DIR}/lib/mdlp
+        lib/Files
+        lib/mdlp
         ${CMAKE_BINARY_DIR}/configured_files/include
     )
     set(TEST_FOLDING "unit_tests_folding")

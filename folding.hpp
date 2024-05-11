@@ -104,10 +104,12 @@ namespace folding {
                     faulty = true;
                 }
                 int start = 0;
-                for (auto fold = 0; fold < k; ++fold) {
-                    auto it = next(class_indices[label].begin() + start, num_samples_to_take);
-                    move(indices.begin() + start, it, back_inserter(stratified_indices[fold]));
-                    start += num_samples_to_take;
+                if (num_samples_to_take > 0) {
+                    for (auto fold = 0; fold < k; ++fold) {
+                        auto it = next(class_indices[label].begin() + start, num_samples_to_take);
+                        move(indices.begin() + start, it, back_inserter(stratified_indices[fold]));
+                        start += num_samples_to_take;
+                    }
                 }
                 if (remainder_samples_to_take > 0) {
                     auto chosen = std::vector<int>(k);

@@ -2,7 +2,7 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := help
 .PHONY: help build test clean
 
-f_debug = build_debug
+f_debug = build_Debug
 test_targets = unit_tests_folding
 n_procs = -j 16
 
@@ -28,7 +28,7 @@ build: ## Build a debug version of the project
 	@echo ">>> Building Debug Folding...";
 	@if [ -d ./$(f_debug) ]; then rm -rf ./$(f_debug); fi
 	@mkdir $(f_debug); 
-	@cmake -S . -B $(f_debug) -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING=ON -D CODE_COVERAGE=ON
+	@cmake -S . -B $(f_debug) -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING=ON
 	@echo ">>> Done";
 
 opt = ""

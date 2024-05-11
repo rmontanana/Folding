@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] 2024-05-11
+
+### Fixed
+
+- Fixed the issue in stratified K-fold when the number of samples of a class is less than the number of folds. Now the algorithm will split the samples evenly among the folds.
+
+### Added
+
+- Refactor stratified build method to remove uneeded structures and optimize loops.
+- Refactor the code to improve the readability and maintainability of the code,changing the order of the private, public and protected methods.
+- More tests to enhance the robustness of the code.
+
 ## [1.0.1] 2024-04-03
 
 ### Added
