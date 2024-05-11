@@ -5,7 +5,7 @@
 #include <random> 
 #include <vector>
 namespace folding {
-    const std::string FOLDING_VERSION = "1.0.1";
+    const std::string FOLDING_VERSION = "1.1.0";
     class Fold {
     protected:
         int k;
@@ -78,7 +78,6 @@ namespace folding {
                     std::cerr << "Warning! The number of samples in class " << label << " (" << class_counts.at(label)
                         << ") is less than the number of folds (" << k << ")." << std::endl;
                     faulty = true;
-                    continue;
                 }
                 auto remainder_samples_to_take = class_counts[label] % k;
                 for (auto fold = 0; fold < k; ++fold) {

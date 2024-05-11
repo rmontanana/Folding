@@ -16,10 +16,12 @@ TEST_CASE("Version Test", "[Folding]")
 
 TEST_CASE("KFold Test", "[Folding]")
 {
-    // Initialize a KFold object with k=5 and a seed of 19.
-    std::string file_name = GENERATE("iris", "diabetes", "glass");
+    // Initialize a KFold object with k=3,5,7,10 and a seed of 19.
+    std::string file_name = GENERATE("iris", "diabetes", "glass", "mfeat-fourier");
     auto raw = RawDatasets(file_name, true);
-    int nFolds = 5;
+    INFO("File Name: " << file_name);
+    int nFolds = GENERATE(3, 5, 7, 10);
+    INFO("Number of Folds: " << nFolds);
     folding::KFold kfold(nFolds, raw.nSamples, 19);
     int number = raw.nSamples * (kfold.getNumberOfFolds() - 1) / kfold.getNumberOfFolds();
 
@@ -27,38 +29,47 @@ TEST_CASE("KFold Test", "[Folding]")
     {
         REQUIRE(kfold.getNumberOfFolds() == nFolds);
     }
-    SECTION("Fold Test")
+    SECTION("Fold Test counts")
     {
         // Test each fold's size and contents.
-        for (int i = 0; i < nFolds; ++i) {
-            auto [train_indices, test_indices] = kfold.getFold(i);
+        for (int fold = 0; fold < nFolds; ++fold) {
+            auto [train_indices, test_indices] = kfold.getFold(fold);
             // Store the indices
-            auto fname = "kfold_" + file_name + "_" + std::to_string(i) + ".csv";
+            auto fname = "kfold_" + file_name + "_" + std::to_string(nFolds) + "_" + std::to_string(fold) + ".csv";
             auto indices = train_indices;
             indices.insert(indices.end(), test_indices.begin(), test_indices.end());
             // CSVFiles::write_csv(fname, indices);
             auto expected_indices = CSVFiles::read_csv(fname);
-            // CHECK(indices == expected_indices);
+            CHECK(indices == expected_indices);
             bool result = train_indices.size() == number || train_indices.size() == number + 1;
             REQUIRE(result);
             REQUIRE(train_indices.size() + test_indices.size() == raw.nSamples);
         }
     }
-}
-map<int, int> counts(std::vector<int> y, std::vector<int> indices)
-{
-    map<int, int> result;
-    for (auto i = 0; i < indices.size(); ++i) {
-        result[y[indices[i]]]++;
+    SECTION("Duplicates")
+    {
+        // Check that there are not duplicate samples in the training and test sets.
+        for (int fold = 0; fold < nFolds; ++fold) {
+            auto [train, test] = kfold.getFold(fold);
+            auto train_ = train;
+            auto test_ = test;
+            sort(train.begin(), train.end());
+            train.erase(unique(train.begin(), train.end()), train.end());
+            sort(test.begin(), test.end());
+            test.erase(unique(test.begin(), test.end()), test.end());
+            REQUIRE(train.size() == train_.size());
+            REQUIRE(test.size() == test_.size());
+        }
     }
-    return result;
 }
 
 TEST_CASE("StratifiedKFold Test", "[Folding]")
 {
     // Initialize a StratifiedKFold object with k=3, using the y std::vector, and a seed of 17.
-    std::string file_name = GENERATE("iris", "diabetes", "glass");
-    int nFolds = GENERATE(3, 5, 10);
+    std::string file_name = GENERATE("iris", "diabetes", "glass", "mfeat-fourier");
+    INFO("File Name: " << file_name);
+    int nFolds = GENERATE(3, 5, 7, 10);
+    INFO("Number of Folds: " << nFolds);
     auto raw = RawDatasets(file_name, true);
     folding::StratifiedKFold stratified_kfoldt(nFolds, raw.yt, 17);
     folding::StratifiedKFold stratified_kfoldv(nFolds, raw.yv, 17);
@@ -68,15 +79,9 @@ TEST_CASE("StratifiedKFold Test", "[Folding]")
     {
         REQUIRE(stratified_kfoldt.getNumberOfFolds() == nFolds);
     }
-    SECTION("Stratified Fold Test")
+    SECTION("Stratified Fold samples counting")
     {
         // Test each fold's size and contents.
-        auto counts = map<int, std::vector<int>>();
-        // Initialize the counts per Fold
-        for (int i = 0; i < nFolds; ++i) {
-            counts[i] = std::vector<int>(raw.classNumStates, 0);
-        }
-        // Check fold and compute counts of each fold
         for (int fold = 0; fold < nFolds; ++fold) {
             auto [train_indicest, test_indicest] = stratified_kfoldt.getFold(fold);
             auto [train_indicesv, test_indicesv] = stratified_kfoldv.getFold(fold);
@@ -88,7 +93,7 @@ TEST_CASE("StratifiedKFold Test", "[Folding]")
             indices.insert(indices.end(), test_indicesv.begin(), test_indicesv.end());
             // CSVFiles::write_csv(fname, indices);
             auto expected_indices = CSVFiles::read_csv(fname);
-            // CHECK(indices == expected_indices);
+            CHECK(indices == expected_indices);
             // In the worst case scenario, the number of samples in the training set is number + raw.classNumStates
             // because in that fold can come one remainder sample from each class.
             REQUIRE(train_indicest.size() <= number + raw.classNumStates);
@@ -99,20 +104,70 @@ TEST_CASE("StratifiedKFold Test", "[Folding]")
             } else {
                 REQUIRE(train_indicest.size() + test_indicest.size() <= raw.nSamples);
             }
+        }
+    }
+    SECTION("Stratified Fold label counting")
+    {
+        auto counts = std::vector<int>(raw.classNumStates, 0);
+        for (auto i = 0; i < raw.nSamples; ++i) {
+            counts[raw.yt[i].item<int>()]++;
+        }
+        auto counts_train = map<int, std::vector<int>>();
+        auto counts_test = map<int, std::vector<int>>();
+        // Initialize the counts per Fold
+        for (int i = 0; i < nFolds; ++i) {
+            counts_train[i] = std::vector<int>(raw.classNumStates, 0);
+            counts_test[i] = std::vector<int>(raw.classNumStates, 0);
+        }
+        // Check fold and compute counts of each fold
+        for (int fold = 0; fold < nFolds; ++fold) {
+            auto [train_indicest, test_indicest] = stratified_kfoldt.getFold(fold);
+            auto [train_indicesv, test_indicesv] = stratified_kfoldv.getFold(fold);
             auto train_t = torch::tensor(train_indicest);
             auto ytrain = raw.yt.index({ train_t });
-            // Check that the class labels have been equally assign to each fold
             for (const auto& idx : train_indicest) {
-                counts[fold][raw.yt[idx].item<int>()]++;
+                counts_train[fold][raw.yt[idx].item<int>()]++;
+            }
+            for (const auto& idx : test_indicest) {
+                counts_test[fold][raw.yt[idx].item<int>()]++;
             }
         }
-        // Test the fold counting of every class
-        for (int fold = 0; fold < nFolds; ++fold) {
-            for (int j = 1; j < nFolds - 1; ++j) {
+        // Check that the different folds have the same number of samples of each class in train
+        for (int fold = 0; fold < nFolds - 1; ++fold) {
+            for (int j = fold + 1; j < nFolds; ++j) {
                 for (int k = 0; k < raw.classNumStates; ++k) {
-                    REQUIRE(abs(counts.at(fold).at(k) - counts.at(j).at(k)) <= 1);
+                    REQUIRE(std::abs(counts_train.at(fold).at(k) - counts_train.at(j).at(k)) <= 1);
                 }
             }
+        }
+        // Check that the different folds have the same number of samples of each class in tests
+        for (int fold = 0; fold < nFolds - 1; ++fold) {
+            for (int j = fold + 1; j < nFolds; ++j) {
+                for (int k = 0; k < raw.classNumStates; ++k) {
+                    REQUIRE(std::abs(counts_test.at(fold).at(k) - counts_test.at(j).at(k)) <= 1);
+                }
+            }
+        }
+        // Check that the sum of the counts of each class in the training and test sets is equal to the total count of that class.
+        for (int fold = 0; fold < nFolds; ++fold) {
+            for (int k = 0; k < raw.classNumStates; ++k) {
+                REQUIRE(counts.at(k) == (counts_train.at(fold).at(k) + counts_test.at(fold).at(k)));
+            }
+        }
+    }
+    SECTION("Duplicates")
+    {
+        // Check that there are not duplicate samples in the training and test sets.
+        for (int fold = 0; fold < nFolds; ++fold) {
+            auto [train, test] = stratified_kfoldt.getFold(fold);
+            auto train_ = train;
+            auto test_ = test;
+            sort(train.begin(), train.end());
+            train.erase(unique(train.begin(), train.end()), train.end());
+            sort(test.begin(), test.end());
+            test.erase(unique(test.begin(), test.end()), test.end());
+            REQUIRE(train.size() == train_.size());
+            REQUIRE(test.size() == test_.size());
         }
     }
 }
