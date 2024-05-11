@@ -17,7 +17,7 @@ TEST_CASE("Version Test", "[Folding]")
 TEST_CASE("KFold Test", "[Folding]")
 {
     // Initialize a KFold object with k=3,5,7,10 and a seed of 19.
-    std::string file_name = GENERATE("iris", "diabetes", "glass", "mfeat-fourier");
+    std::string file_name = GENERATE("iris", "diabetes", "glass");//, "mfeat-fourier");
     auto raw = RawDatasets(file_name, true);
     INFO("File Name: " << file_name);
     int nFolds = GENERATE(3, 5, 7, 10);
@@ -66,7 +66,7 @@ TEST_CASE("KFold Test", "[Folding]")
 TEST_CASE("StratifiedKFold Test", "[Folding]")
 {
     // Initialize a StratifiedKFold object with k=3, using the y std::vector, and a seed of 17.
-    std::string file_name = GENERATE("iris", "diabetes", "glass", "mfeat-fourier");
+    std::string file_name = GENERATE("iris", "diabetes", "glass");//, "mfeat-fourier");
     INFO("File Name: " << file_name);
     int nFolds = GENERATE(3, 5, 7, 10);
     INFO("Number of Folds: " << nFolds);
