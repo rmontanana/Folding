@@ -5,7 +5,7 @@
 ![Gitea Release](https://img.shields.io/gitea/v/release/rmontanana/folding?gitea_url=https://gitea.rmontanana.es:3000)
 ![Gitea Last Commit](https://img.shields.io/gitea/last-commit/rmontanana/folding?gitea_url=https://gitea.rmontanana.es:3000&logo=gitea)
 
-Folding header-only library for BayesNet classifiers & platform
+K-Fold and stratified K-Fold header-only library for BayesNet classifiers & platform
 
 ### Tests
 
