@@ -39,7 +39,7 @@ add_subdirectory(config)
 # -------
 if (ENABLE_TESTING)
   MESSAGE("Testing enabled")
-  add_git_submodule("tests/lib/catch2")  
+  add_git_submodule("tests/lib/Catch2")  
   add_git_submodule("tests/lib/Files")  
   add_git_submodule("tests/lib/mdlp")  
   include(CTest)
