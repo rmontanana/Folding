@@ -59,7 +59,7 @@ namespace folding {
     };
     class StratifiedKFold : public Fold {
     public:
-        inline StratifiedKFold(int k, const std::vector<int>& y, int seed = -1) : Fold(k, y.size(), seed)
+        inline StratifiedKFold(int k, const std::vector<int>& y, int seed = -1, bool quiet = true) : Fold(k, y.size(), seed)
         {
             this->y = y;
             n = y.size();

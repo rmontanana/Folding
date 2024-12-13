@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(Folding
-  VERSION 1.1.0
   DESCRIPTION "Folding utility for BayesNet library"
   HOMEPAGE_URL "https://github.com/rmontanana/folding"
   LANGUAGES CXX
@@ -33,7 +32,6 @@ include(AddGitSubmodule)
 
 # Subdirectories
 # --------------
-add_subdirectory(config)
 
 # Testing
 # -------
