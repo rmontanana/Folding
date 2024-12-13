@@ -2,7 +2,7 @@ if(ENABLE_TESTING)
     include_directories(
         ${Folding_SOURCE_DIR}
         lib/Files
-        lib/mdlp
+        lib/mdlp/src
     )
     set(TEST_FOLDING "unit_tests_folding")
     add_executable(${TEST_FOLDING} TestFolding.cc TestUtils.cc)
