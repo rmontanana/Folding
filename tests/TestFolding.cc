@@ -12,7 +12,7 @@
 
 TEST_CASE("Version Test", "[Folding]")
 {
-    std::string actual_version = { folding_project_version.begin(), folding_project_version.end() };
+    std::string actual_version = "1.1.1";
     auto data = std::vector<int>(100);
     folding::StratifiedKFold stratified_kfold(5, data, 17);
     REQUIRE(stratified_kfold.version() == actual_version);
@@ -185,5 +185,39 @@ TEST_CASE("StratifiedKFold Test", "[Folding]")
                 }
             }
         }
+    }
+}
+TEST_CASE("Stratified KFold quiet parameter", "[Folding]")
+{
+    auto raw = RawDatasets("glass", true);
+    std::string expected = "Warning! The number of samples in class 2 (9) is less than the number of folds (10).\n";
+
+    SECTION("With vectors")
+    {
+        // Redirect cerr to a stringstream
+        std::streambuf* originalCerrBuffer = std::cerr.rdbuf();
+        std::stringstream capturedOutput;
+        std::cerr.rdbuf(capturedOutput.rdbuf());
+        // StratifiedKFold with quiet parameter set to false
+        folding::StratifiedKFold stratified_kfold(10, raw.yv, 17, false);
+        // Restore the original cerr buffer
+        std::cerr.rdbuf(originalCerrBuffer);
+        // Check the captured output
+        REQUIRE(capturedOutput.str() == expected);
+        REQUIRE(stratified_kfold.isFaulty());
+    }
+    SECTION("With tensors")
+    {
+        // Redirect cerr to a stringstream
+        std::streambuf* originalCerrBuffer = std::cerr.rdbuf();
+        std::stringstream capturedOutput;
+        std::cerr.rdbuf(capturedOutput.rdbuf());
+        // StratifiedKFold with quiet parameter set to false
+        folding::StratifiedKFold stratified_kfold(10, raw.yt, 17, false);
+        // Restore the original cerr buffer
+        std::cerr.rdbuf(originalCerrBuffer);
+        // Check the captured output
+        REQUIRE(capturedOutput.str() == expected);
+        REQUIRE(stratified_kfold.isFaulty());
     }
 }
