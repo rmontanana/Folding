@@ -28,8 +28,8 @@ build: ## Build a debug version of the project
 	@echo ">>> Building Debug Folding...";
 	@if [ -d ./$(f_debug) ]; then rm -rf ./$(f_debug); fi
 	@mkdir $(f_debug); 
-	@conan install . --output-folder=$(f_debug) --build=missing
-	@cmake -S . -B $(f_debug) -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING=ON
+	@conan install . --output-folder=$(f_debug) --build=missing --profile:build=default --profile:host=default
+	@cmake -S . -B $(f_debug) -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING=ON -D CMAKE_TOOLCHAIN_FILE=$(f_debug)/conan_toolchain.cmake
 	@echo ">>> Done";
 
 opt = ""

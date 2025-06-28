@@ -1,6 +1,7 @@
 import re
 from conan import ConanFile
 from conan.tools.files import copy
+from conan.tools.cmake import CMakeToolchain
 
 
 class FoldingConan(ConanFile):
@@ -25,6 +26,10 @@ class FoldingConan(ConanFile):
         self.test_requires("catch2/3.8.1")
         self.test_requires("arff-files/1.2.0")
         self.test_requires("fimdlp/2.0.1")
+
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.generate()
 
     def init(self):
         # Read the CMakeLists.txt file to get the version

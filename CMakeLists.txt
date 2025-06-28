@@ -7,6 +7,7 @@ project(Folding
 )
 
 find_package(Torch REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
 
 if (POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
