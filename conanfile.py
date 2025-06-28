@@ -6,7 +6,7 @@ from conan.tools.cmake import cmake_layout
 
 class FoldingConan(ConanFile):
     name = "folding"
-    version = "X.X.X"
+    version = "1.1.1"
     description = "K-Fold and stratified K-Fold header-only library"
     url = "https://github.com/rmontanana/folding"
     license = "MIT"
@@ -29,16 +29,6 @@ class FoldingConan(ConanFile):
 
     def layout(self):
         cmake_layout(self)
-
-    def init(self):
-        # Read the CMakeLists.txt file to get the version
-        with open("folding.hpp", "r") as f:
-            content = f.read()
-            match = re.search(
-                r'const std::string FOLDING_VERSION = "([^"]+)";', content
-            )
-            if match:
-                self.version = match.group(1)
 
     def package(self):
         copy(self, "*.hpp", src=self.source_folder, dst=self.package_folder)
