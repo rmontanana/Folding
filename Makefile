@@ -26,10 +26,11 @@ clean: ## Clean the tests info
 
 build: ## Build a debug version of the project
 	@echo ">>> Building Debug Folding...";
-	@if [ -d ./$(f_debug) ]; then rm -rf ./$(f_debug); fi
+	@if [ -d $(f_debug) ]; then rm -rf $(f_debug); fi
 	@mkdir $(f_debug); 
-	@conan install . --output-folder=$(f_debug) --build=missing --profile:build=default --profile:host=default
-	@cmake -S . -B $(f_debug) -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING=ON -D CMAKE_TOOLCHAIN_FILE=$(f_debug)/conan_toolchain.cmake
+	conan install . -of $(f_debug) -s build_type=Debug -b missing 
+	cmake -B $(f_debug) -S . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$(f_debug)/build/Debug/generators/conan_toolchain.cmake -DENABLE_TESTING=ON
+	cmake --build $(f_debug) -t $(test_targets) $(n_procs)
 	@echo ">>> Done";
 
 opt = ""
@@ -37,6 +38,7 @@ test: ## Run tests (opt="-s") to verbose output the tests
 	@echo ">>> Running Folding tests...";
 	@$(MAKE) clean
 	@cmake --build $(f_debug) -t $(test_targets) $(n_procs)
+	@cp -r tests/data $(f_debug)/tests/data
 	@for t in $(test_targets); do \
 		if [ -f $(f_debug)/tests/$$t ]; then \
 			cd $(f_debug)/tests ; \
