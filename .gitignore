@@ -38,3 +38,27 @@ cmake-build*/**
 .idea
 puml/**
 .vscode/settings.json
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+CTestTestfile.cmake
+DartConfiguration.tcl
+Testing/
+CMakePresets.json
+
+# Conan generated files
+conan_toolchain.cmake
+conan*.sh
+deactivate_*.sh
+cmakedeps*.cmake
+conandeps*.cmake
+*-Target-*.cmake
+*-debug-*.cmake
+*Config*.cmake
+*Targets.cmake
+Find*.cmake
+module-*.cmake

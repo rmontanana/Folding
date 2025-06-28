@@ -28,6 +28,7 @@ build: ## Build a debug version of the project
 	@echo ">>> Building Debug Folding...";
 	@if [ -d ./$(f_debug) ]; then rm -rf ./$(f_debug); fi
 	@mkdir $(f_debug); 
+	@conan install . --output-folder=$(f_debug) --build=missing
 	@cmake -S . -B $(f_debug) -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING=ON
 	@echo ">>> Done";
 

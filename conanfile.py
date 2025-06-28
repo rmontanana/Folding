@@ -14,6 +14,17 @@ class FoldingConan(ConanFile):
     no_copy_source = True
     exports_sources = "folding.hpp"
     package_type = "header-library"
+    # build_type = "Debug"
+
+    def requirements(self):
+        # Build dependency
+        self.requires("libtorch/2.7.0")
+
+    def build_requirements(self):
+        # Test dependencies
+        self.test_requires("catch2/3.8.1")
+        self.test_requires("arff-files/1.2.0")
+        self.test_requires("fimdlp/2.0.1")
 
     def init(self):
         # Read the CMakeLists.txt file to get the version
