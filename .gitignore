@@ -62,4 +62,4 @@ conandeps*.cmake
 *Targets.cmake
 Find*.cmake
 module-*.cmake
-# CMakeUserPresets.json
+CMakeUserPresets.json
