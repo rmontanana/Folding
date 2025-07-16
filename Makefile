@@ -33,6 +33,12 @@ build: ## Build a debug version of the project
 	cmake --build $(f_debug) -t $(test_targets) $(n_procs)
 	@echo ">>> Done";
 
+conan-create: ## Create the conan package
+	@echo ">>> Creating the conan package..."
+	conan create . --build=missing -tf "" -s:a build_type=Release 
+	conan create . --build=missing -tf "" -s:a build_type=Debug
+	@echo ">>> Done"
+
 opt = ""
 test: ## Run tests (opt="-s") to verbose output the tests
 	@echo ">>> Running Folding tests...";

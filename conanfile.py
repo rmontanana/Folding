@@ -19,13 +19,14 @@ class FoldingConan(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
 
     def requirements(self):
-        self.requires("libtorch/2.7.0")
+        self.requires("libtorch/2.7.1")
 
     def build_requirements(self):
         self.tool_requires("cmake/[>=3.15]")
         # Test dependencies
         self.test_requires("catch2/3.8.1")
         self.test_requires("arff-files/1.2.0")
+        self.test_requires("fimdlp/2.1.0")
 
     def layout(self):
         cmake_layout(self)
