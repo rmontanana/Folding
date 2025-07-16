@@ -43,7 +43,7 @@ class FoldingConan(ConanFile):
         # Test dependencies
         self.test_requires("catch2/3.8.1")
         self.test_requires("arff-files/1.2.1")
-        self.test_requires("fimdlp/2.1.0")
+        self.test_requires("fimdlp/2.1.1")
 
     def layout(self):
         # Only use cmake_layout for conan packaging, not for development builds

@@ -8,6 +8,7 @@
 #include <tuple>
 #include "ArffFiles.hpp"
 #include "fimdlp/CPPFImdlp.h"
+#include "folding_config.h"
 
 bool file_exists(const std::string& name);
 std::pair<vector<mdlp::labels_t>, map<std::string, int>> discretize(std::vector<mdlp::samples_t>& X, mdlp::labels_t& y, std::vector<string> features);
@@ -44,11 +45,12 @@ class Paths {
 public:
     static std::string datasets()
     {
-        return "data/";
+        std::string result = { folding_data_path.begin(), folding_data_path.end() };
+        return result + "/";
     }
     static std::string csv()
     {
-        return "../../tests/csv/";
+        return datasets() + "../csv/";
     }
 };
 class CSVFiles {
