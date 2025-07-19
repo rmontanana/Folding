@@ -1,0 +1,12 @@
+#pragma once
+
+#define FOLDING_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define FOLDING_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define FOLDING_VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+#define FOLDING_VERSION "@PROJECT_VERSION@"
+
+static constexpr std::string_view folding_project_name = "@PROJECT_NAME@";
+static constexpr std::string_view folding_project_version = "@PROJECT_VERSION@";
+static constexpr std::string_view folding_project_description = "@PROJECT_DESCRIPTION@";
+static constexpr std::string_view folding_data_path = "@Folding_SOURCE_DIR@/tests/data/";

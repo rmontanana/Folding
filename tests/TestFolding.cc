@@ -9,10 +9,11 @@
 #include <catch2/generators/catch_generators.hpp>
 #include "TestUtils.h"
 #include "folding.hpp"
+#include <folding_config.h>
 
 TEST_CASE("Version Test", "[Folding]")
 {
-    std::string actual_version = "1.1.1";
+    std::string actual_version = FOLDING_VERSION;
     auto data = std::vector<int>(100);
     folding::StratifiedKFold stratified_kfold(5, data, 17);
     REQUIRE(stratified_kfold.version() == actual_version);

@@ -10,8 +10,8 @@
 #include <map>
 #include <random> 
 #include <vector>
+#include <folding_config.h>
 namespace folding {
-    const std::string FOLDING_VERSION = "1.1.1";
     class Fold {
     public:
         inline Fold(int k, int n, int seed = -1) : k(k), n(n), seed(seed)

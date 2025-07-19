@@ -63,3 +63,4 @@ conandeps*.cmake
 Find*.cmake
 module-*.cmake
 CMakeUserPresets.json
+.claude
